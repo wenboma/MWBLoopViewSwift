@@ -32,32 +32,29 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     var pageLabel:UILabel?
     
     var loopViewDelegate:MWBLoopViewDelegate?
-    
-    
-    var imageURLs:NSArray?{
-        set {
-            if (newValue?.count > 0 ){
-//                let arr:NSMutableArray! = NSMutableArray();
-//                arr.addObject((newValue?.lastObject)!)
-//                arr.addObjectsFromArray(newValue as! [AnyObject])
-//                arr.addObject((newValue?.firstObject)!)
-//                self.imageURLs = NSArray(array: arr);
-            }
-            self.reloadData()
-            self.loadPageControl()
-            self.loadPageLabel()
 
-            if(self.pageControl != nil && self.showPageControl){
-                self.pageControl!.numberOfPages = self.imageURLs!.count-2;
+    var imageURLs:NSArray? {
+
+            didSet{
+
+                let arr = NSMutableArray()
+                
+                arr.addObject((imageURLs!.lastObject)!)
+                arr.addObjectsFromArray(imageURLs as! [AnyObject])
+                arr.addObject((imageURLs!.firstObject)!)
+                imageURLs = NSArray(array: arr);
+
+                self.reloadData()
+                self.loadPageControl()
+                self.loadPageLabel()
+                
+                if(self.pageControl != nil && self.showPageControl){
+                    self.pageControl!.numberOfPages = imageURLs!.count-2;
+                }
+                self.needRefresh = true
+                
+                self.judgeMoving()
             }
-            self.needRefresh = true
-            
-            self.judgeMoving()
-        }
-        
-        get {
-            return self.imageURLs
-        }
     }
     var localImages:NSArray?                                    /******* @brief 本地图片数组****/
     var placeholder:UIImage?                                    /******* @brief 没有图片轮播的占位图****/
@@ -91,7 +88,7 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     func makeSubViews() {
         self.delegate = self;
         self.dataSource = self;
-        self.pagingEnabled = false
+        self.pagingEnabled = true
         self.showsHorizontalScrollIndicator = false
         self.backgroundColor = UIColor.whiteColor()
         if(self.collectionViewLayout.isKindOfClass(UICollectionViewFlowLayout)){
@@ -253,7 +250,7 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
             page = 0;
         }
         
-        if(self.loopViewDelegate != nil && self.loopViewDelegate!.respondsToSelector("loopView,didScrollToPage:")){
+        if(self.loopViewDelegate != nil && self.loopViewDelegate!.respondsToSelector("loopView:didScrollToPage:")){
             self.loopViewDelegate!.loopView!(self, didScrollToPage: page)
         }
         return page
@@ -329,7 +326,7 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
         {
             page = indexPath.row - 1;
         }
-        if ((self.loopViewDelegate?.respondsToSelector("loopView,didSelected:")) != false)
+        if (self.loopViewDelegate != nil && self.loopViewDelegate?.respondsToSelector("loopView:didSelected:") == true )
         {
             self.loopViewDelegate?.loopView!(self, didSelected: page)
         }

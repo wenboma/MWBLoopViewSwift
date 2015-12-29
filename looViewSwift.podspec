@@ -4,8 +4,8 @@ Pod::Spec.new do |s|
 
 
 
-  s.name         = 'MWBLoopView'
-  s.version      = '1.0.4'
+  s.name         = 'looViewSwift'
+  s.version      = '1.0.0'
   s.summary      = '这是一个可以循环滚动的view，可用于banner轮播'
   s.description  = <<-DESC
                    A longer description of WXInputView in Markdown format.
@@ -23,12 +23,12 @@ Pod::Spec.new do |s|
   s.author             = { '马文铂' => 'ma_wenbo@126.com' }
 
 #  s.compiler_flags = '-fmodules'
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '8.0'
 
 
-  s.source       = { :git => 'https://github.com/wenboma/MWBLoopView.git', :tag => '1.0.4' }
+  s.source       = { :git => 'https://github.com/wenboma/MWBLoopViewSwift.git', :tag => '1.0.0' }
 
-  s.source_files  = "LoopView", "LoopView/*"
+  s.source_files  = "MWBLoopswift", "MWBLoopswift/*"
   s.dependency 'SDWebImage'
 
 

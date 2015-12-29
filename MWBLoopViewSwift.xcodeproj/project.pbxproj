@@ -13,11 +13,13 @@
 		2478F6851C2B92D100826D66 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2478F6841C2B92D100826D66 /* MainViewController.swift */; };
 		2478F68A1C2BCA2200826D66 /* MWBLoopViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2478F6891C2BCA2200826D66 /* MWBLoopViewCollectionViewCell.swift */; };
 		2478F68E1C2BEBFF00826D66 /* MWBLoopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2478F68D1C2BEBFF00826D66 /* MWBLoopView.swift */; };
+		24F83E3E1C321F540091CC7A /* address_icon_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F83E3B1C321F540091CC7A /* address_icon_red.png */; };
+		24F83E3F1C321F540091CC7A /* poi_image_default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F83E3C1C321F540091CC7A /* poi_image_default@2x.png */; };
+		24F83E401C321F540091CC7A /* share_weibo_default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 24F83E3D1C321F540091CC7A /* share_weibo_default@2x.png */; };
 		6BFD2528C14F78C7634CE05E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5347D47DE3CB7E4B9DEA1B25 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		240C669A1C2CF36A001864C1 /* MWBLoopViewSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MWBLoopViewSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		2478F66F1C2B921B00826D66 /* MWBLoopViewSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWBLoopViewSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2478F6721C2B921B00826D66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2478F6791C2B921B00826D66 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -26,6 +28,10 @@
 		2478F6841C2B92D100826D66 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		2478F6891C2BCA2200826D66 /* MWBLoopViewCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MWBLoopViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		2478F68D1C2BEBFF00826D66 /* MWBLoopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MWBLoopView.swift; sourceTree = "<group>"; };
+		24F83E3B1C321F540091CC7A /* address_icon_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = address_icon_red.png; sourceTree = "<group>"; };
+		24F83E3C1C321F540091CC7A /* poi_image_default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poi_image_default@2x.png"; sourceTree = "<group>"; };
+		24F83E3D1C321F540091CC7A /* share_weibo_default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_weibo_default@2x.png"; sourceTree = "<group>"; };
+		24F83E411C3230C90091CC7A /* MWBLoopViewSwift-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MWBLoopViewSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		5347D47DE3CB7E4B9DEA1B25 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BCB380C72458E00956A1D06 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A8EF5F1BE4E325F8F7114A49 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -46,6 +52,9 @@
 		2478F6661C2B921B00826D66 = {
 			isa = PBXGroup;
 			children = (
+				24F83E3B1C321F540091CC7A /* address_icon_red.png */,
+				24F83E3C1C321F540091CC7A /* poi_image_default@2x.png */,
+				24F83E3D1C321F540091CC7A /* share_weibo_default@2x.png */,
 				2478F6881C2BC9CD00826D66 /* MWBLoopView */,
 				2478F6711C2B921B00826D66 /* MWBLoopViewSwift */,
 				2478F6701C2B921B00826D66 /* Products */,
@@ -77,9 +86,9 @@
 		2478F6881C2BC9CD00826D66 /* MWBLoopView */ = {
 			isa = PBXGroup;
 			children = (
+				24F83E411C3230C90091CC7A /* MWBLoopViewSwift-Bridging-Header.h */,
 				2478F6891C2BCA2200826D66 /* MWBLoopViewCollectionViewCell.swift */,
 				2478F68D1C2BEBFF00826D66 /* MWBLoopView.swift */,
-				240C669A1C2CF36A001864C1 /* MWBLoopViewSwift-Bridging-Header.h */,
 			);
 			path = MWBLoopView;
 			sourceTree = "<group>";
@@ -164,6 +173,9 @@
 			files = (
 				2478F67D1C2B921B00826D66 /* LaunchScreen.storyboard in Resources */,
 				2478F67A1C2B921B00826D66 /* Assets.xcassets in Resources */,
+				24F83E3E1C321F540091CC7A /* address_icon_red.png in Resources */,
+				24F83E3F1C321F540091CC7A /* poi_image_default@2x.png in Resources */,
+				24F83E401C321F540091CC7A /* share_weibo_default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -32,23 +32,31 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     var pageLabel:UILabel?
     
     var loopViewDelegate:MWBLoopViewDelegate?
+    
+    var picAry : NSArray?
 
-    var imageURLs:NSArray? {
+    var imageURLs:NSArray? = []{                            /******** @brife 网络图片数组 ******/
 
             didSet{
 
                 let arr = NSMutableArray()
-                
-                arr.addObject((imageURLs!.lastObject)!)
-                arr.addObjectsFromArray(imageURLs as! [AnyObject])
-                arr.addObject((imageURLs!.firstObject)!)
-                imageURLs = NSArray(array: arr);
+                if(imageURLs != nil){
+                    arr.addObject((imageURLs!.lastObject)!)
+                    arr.addObjectsFromArray(imageURLs as! [AnyObject])
+                    arr.addObject((imageURLs!.firstObject)!)
+                    imageURLs = NSArray(array: arr);
+                }
+                let ary:NSArray? = self.getPicAry()
+                if(ary != nil){
+                    self.picAry =  ary
+                }
 
+                
                 self.reloadData()
                 self.loadPageControl()
                 self.loadPageLabel()
                 
-                if(self.pageControl != nil && self.showPageControl){
+                if(self.pageControl != nil && self.showPageControl && imageURLs != nil){
                     self.pageControl!.numberOfPages = imageURLs!.count-2;
                 }
                 self.needRefresh = true
@@ -56,12 +64,47 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
                 self.judgeMoving()
             }
     }
-    var localImages:NSArray?                                    /******* @brief 本地图片数组****/
+    var localImages:NSArray? = []{                             /******* @brief 本地图片数组****/
+        didSet{
+            
+            let arr = NSMutableArray()
+            if(localImages != nil){
+                arr.addObject((localImages!.lastObject)!)
+                arr.addObjectsFromArray(localImages as! [AnyObject])
+                arr.addObject((localImages!.firstObject)!)
+                localImages = NSArray(array: arr);
+            }
+            let ary:NSArray? = self.getPicAry()
+            if(ary != nil){
+                self.picAry =  ary
+            }
+            
+            self.reloadData()
+            self.loadPageControl()
+            self.loadPageLabel()
+            
+            if(self.pageControl != nil && self.showPageControl && localImages != nil){
+                self.pageControl!.numberOfPages = localImages!.count-2;
+            }
+            self.needRefresh = true
+            
+            self.judgeMoving()
+        }
+    }
     var placeholder:UIImage?                                    /******* @brief 没有图片轮播的占位图****/
     var autoMoving:Bool         = true                          /******* @brief 是否自动播放 默认YES****/
     var movingTimeInterval:NSTimeInterval = 3                   /******* @brief 时间间隔 默认 3秒****/
     var currentPageIndex:NSInteger  = 0                         /******* @brief 进入滚动到多少页 默认0 如果大于array count ，显示第一张****/
-    var imageType:MWBImageType  = MWBImageType.WebImage         /******* @brief 加载图片类型 默认 网络图片****/
+
+    var imageType:MWBImageType  = MWBImageType.WebImage {       /******* @brief 加载图片类型 默认 网络图片****/
+        didSet{
+
+            let ary:NSArray? = self.getPicAry()
+            if(ary != nil ){
+                self.picAry =  ary
+            }
+        }
+    }
     var showDefaultImage:Bool   = false                         /******* @brief 没有数据的时候是否显示 默认图 默认 NO****/
     var showPageControl:Bool    = true                          /******* @brief 是否显示pagecontrol 默认YES****/
     var showpageLabel:Bool      = true                          /******* @brief 是否显示 滑动到哪儿的label 默认YES****/
@@ -81,6 +124,14 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     }
     override func awakeFromNib() {
         self.makeSubViews()
+    }
+    
+    func getPicAry() -> NSArray?{
+        if(self.imageType == MWBImageType.WebImage){
+            return self.imageURLs
+        }else{
+            return self.localImages
+        }
     }
     
     
@@ -124,8 +175,9 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     override func layoutSubviews() {
         super.layoutSubviews()
         if (self.needRefresh){
+            
             //最左边一张图其实是最后一张图，因此移动到第二张图，也就是imageURL的第一个URL的图。
-            self.scrollToItemAtIndexPath(NSIndexPath(forRow: ((self.currentPageIndex+1)>(self.imageURLs!.count-1) ? 1 : self.currentPageIndex+1) , inSection:0), atScrollPosition:UICollectionViewScrollPosition.None, animated: false)
+            self.scrollToItemAtIndexPath(NSIndexPath(forRow: ((self.currentPageIndex+1)>(picAry!.count-1) ? 1 : self.currentPageIndex+1) , inSection:0), atScrollPosition:UICollectionViewScrollPosition.None, animated: false)
             self.needRefresh = false;
         }
         self.loadPageControl();
@@ -175,7 +227,7 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     
     func judgeMoving(){
         self.moving();
-        if(self.imageURLs?.count <= 3 && self.imageURLs?.count > 0){
+        if(self.picAry?.count <= 3 && self.picAry?.count > 0){
             if(self.pageControl != nil && self.showPageControl){
                 self.pageControl!.hidden = false;
             }
@@ -211,7 +263,7 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     
     func startMoving(){
         
-        if(self.imageURLs?.count > 0){
+        if(self.picAry?.count > 0){
             self.addTimer()
         }
     }
@@ -243,15 +295,15 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
         var page:NSInteger = NSInteger(scrollView.contentOffset.x / self.frame.size.width) - 1;
         
         if (scrollView.contentOffset.x < self.frame.size.width){
-            page = (self.imageURLs?.count)! - 3;
+            page = (self.picAry?.count)! - 3;
         }
-        else if (scrollView.contentOffset.x >= self.frame.size.width * CGFloat((self.imageURLs?.count)!-1))
+        else if (scrollView.contentOffset.x >= self.frame.size.width * CGFloat((self.picAry?.count)!-1))
         {
             page = 0;
         }
         
         if(self.loopViewDelegate != nil && self.loopViewDelegate!.respondsToSelector("loopView:didScrollToPage:")){
-            self.loopViewDelegate!.loopView!(self, didScrollToPage: page)
+            self.loopViewDelegate!.loopView!(self, didScrollToPage: page+1)
         }
         return page
     }
@@ -261,9 +313,9 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
         
         if (scrollView.contentOffset.x < self.frame.size.width)
         {
-            page = (self.imageURLs?.count)! - 3;
+            page = (self.picAry?.count)! - 3;
         }
-        else if (scrollView.contentOffset.x >= self.frame.size.width * CGFloat((self.imageURLs?.count)! - 1))
+        else if (scrollView.contentOffset.x >= self.frame.size.width * CGFloat((self.picAry?.count)! - 1))
         {
             page = 0;
         }
@@ -277,26 +329,26 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
         }
         if(self.showpageLabel && self.pageLabel != nil){
             
-            self.pageLabel?.text = String(page+1,"/",(self.imageURLs?.count)!-2)
+            self.pageLabel?.text = String(page+1) + "/" + String((self.picAry?.count)!-2)
         }
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return max((self.imageURLs?.count)! , Int(self.showDefaultImage))
+        return max((self.picAry?.count)! , Int(self.showDefaultImage))
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell:MWBLoopViewCollectionViewCell! = self.dequeueReusableCellWithReuseIdentifier(NSStringFromClass(MWBLoopViewCollectionViewCell), forIndexPath: indexPath) as! MWBLoopViewCollectionViewCell
-        if (self.imageURLs?.count==0)
+        if (self.picAry?.count==0)
         {
             cell.LoopImageView.image = self.placeholder;
             return cell;
         }
         if(self.imageType == MWBImageType.WebImage){
-            cell.LoopImageView.sd_setImageWithURL(NSURL(string: (self.imageURLs?[indexPath.row])! as! String), placeholderImage: self.placeholder)
+            cell.LoopImageView.sd_setImageWithURL(NSURL(string: (self.picAry?[indexPath.row])! as! String), placeholderImage: self.placeholder)
             
         }else{
-            cell.LoopImageView.image = UIImage(named:(self.imageURLs?[indexPath.row]) as! String)
+            cell.LoopImageView.image = UIImage(named:(self.picAry?[indexPath.row]) as! String)
         }
         return cell
     }
@@ -312,13 +364,13 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         var  page:NSInteger! = 0;
-        let lastIndex:NSInteger = self.imageURLs!.count - 3;
+        let lastIndex:NSInteger = self.picAry!.count - 3;
         
         if (indexPath.row == 0)
         {
             page = lastIndex;
         }
-        else if (indexPath.row == self.imageURLs!.count-1)
+        else if (indexPath.row == self.picAry!.count-1)
         {
             page = 0;
         }
@@ -328,7 +380,7 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
         }
         if (self.loopViewDelegate != nil && self.loopViewDelegate?.respondsToSelector("loopView:didSelected:") == true )
         {
-            self.loopViewDelegate?.loopView!(self, didSelected: page)
+            self.loopViewDelegate?.loopView!(self, didSelected: page+1)
         }
     }
     
@@ -356,14 +408,14 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
         //向左滑动时切换imageView
         if (scrollView.contentOffset.x < self.frame.size.width )
         {
-            self.contentOffset = CGPointMake(self.frame.size.width*CGFloat(self.imageURLs!.count-1)-(self.frame.size.width-scrollView.contentOffset.x), 0)
+            self.contentOffset = CGPointMake(self.frame.size.width*CGFloat(self.picAry!.count-1)-(self.frame.size.width-scrollView.contentOffset.x), 0)
             self.setPageControlIndexWithPage(self.getCurrentScrolltoIndex(scrollView))
             return;
         }
         //向右滑动时切换imageView
-        if (scrollView.contentOffset.x > CGFloat(self.imageURLs!.count - 1) * self.frame.size.width )
+        if (scrollView.contentOffset.x > CGFloat(self.picAry!.count - 1) * self.frame.size.width )
         {
-            self.contentOffset = CGPointMake(self.frame.size.width+(scrollView.contentOffset.x-CGFloat(self.imageURLs!.count - 1) * self.frame.size.width), 0)
+            self.contentOffset = CGPointMake(self.frame.size.width+(scrollView.contentOffset.x-CGFloat(self.picAry!.count - 1) * self.frame.size.width), 0)
             self.setPageControlIndexWithPage(self.getCurrentScrolltoIndex(scrollView))
             return;
         }

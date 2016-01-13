@@ -9,7 +9,7 @@
 import UIKit
 import SDWebImage
 enum  MWBImageType{
-    case LocalImage //加载本地图片
+    case LocalImage//加载本地图片
     case WebImage //加载网络图片
 }
 
@@ -27,6 +27,7 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     
     var timer :NSTimer?
     var needRefresh :Bool = false
+    
     
     var pageControl:UIPageControl?
     var pageLabel:UILabel?
@@ -112,7 +113,7 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
     var hidePageLabelWhenNoData:Bool     = true                 /******* @brief 是否隐藏pageLabel 在只有一条或者没有数据的时候 默认隐藏 YES****/
     var notAutoMovingWhenNoData:Bool     = true                 /******* @brief 是否自动滚动 在只有一条或者没有数据的时候 默认不滚动 YES****/
     var notScrollWhenNoData:Bool         = true                 /******* @brief 是否可以滚动 再只有一条数据时 默认不可以 YES****/
-    
+    var couldTouchNoData : Bool          = false                /******* @brief 没有数据时是否可点击 默认不可以 NO****/
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
 
         super.init(frame:frame ,collectionViewLayout:layout)
@@ -170,11 +171,12 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
         self.hidePageLabelWhenNoData = true
         self.notAutoMovingWhenNoData = true
         self.notScrollWhenNoData = true;
+        self.couldTouchNoData = false
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        if (self.needRefresh){
+        if (self.needRefresh && self.picAry?.count > 0){
             
             //最左边一张图其实是最后一张图，因此移动到第二张图，也就是imageURL的第一个URL的图。
             self.scrollToItemAtIndexPath(NSIndexPath(forRow: ((self.currentPageIndex+1)>(picAry!.count-1) ? 1 : self.currentPageIndex+1) , inSection:0), atScrollPosition:UICollectionViewScrollPosition.None, animated: false)
@@ -378,9 +380,18 @@ class MWBLoopView: UICollectionView,UICollectionViewDelegate,UICollectionViewDat
         {
             page = indexPath.row - 1;
         }
-        if (self.loopViewDelegate != nil && self.loopViewDelegate?.respondsToSelector("loopView:didSelected:") == true )
-        {
-            self.loopViewDelegate?.loopView!(self, didSelected: page+1)
+        if(self.picAry?.count > 0){
+            if (self.loopViewDelegate != nil && self.loopViewDelegate?.respondsToSelector("loopView:didSelected:") == true )
+            {
+                self.loopViewDelegate?.loopView!(self, didSelected: page+1)
+            }
+        }else {
+            if(self.couldTouchNoData == true){
+                if (self.loopViewDelegate != nil && self.loopViewDelegate?.respondsToSelector("loopView:didSelected:") == true )
+                {
+                    self.loopViewDelegate?.loopView!(self, didSelected: page+1)
+                }
+            }
         }
     }
     

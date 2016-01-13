@@ -1,0 +1,28 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "84D997EF1F7BEFDA5A3E04A51DDA57A2CA5D90AA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "84D997EF1F7BEFDA5A3E04A51DDA57A2CA5D90AA" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "15EC1767-76A6-4596-A55D-FE5E267A3439",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "84D997EF1F7BEFDA5A3E04A51DDA57A2CA5D90AA" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MWBLoopViewSwift",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MWBLoopViewSwift.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/wenboma\/MWBLoopViewSwift.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "84D997EF1F7BEFDA5A3E04A51DDA57A2CA5D90AA"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/wenboma\/MWBLoopViewSwift.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "84D997EF1F7BEFDA5A3E04A51DDA57A2CA5D90AA"
+    }
+  ]
+}
